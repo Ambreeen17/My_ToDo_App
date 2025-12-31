@@ -1,1 +1,340 @@
-[["Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)\n[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)\n[![Phase 1](https://img.shields.io/badge/phase-foundation-orange.svg)](specs/001-console-todo-foundation)\n\n> A modern, spec-driven console Todo application built with Python. Part of the \"Evolution of Todo", "project demonstrating phased software development.\n\n## \ud83c\udfaf Overview\n\nMyTodo App is a production-grade console application for managing tasks through a clean command-line interface. This is **Phase 1** of a larger phased evolution project that will progress through web UI, AI chatbot integration, and cloud-native deployment.\n\n### Key Features\n\n- \u2705 **Complete CRUD Operations**: Create, List, Update, Complete, Delete todos\n- \u2705 **Immutable Business Rules**: Enforced at the application layer\n- \u2705 **Deterministic Behavior**: Unique IDs, no randomness\n- \u2705 **Clean Architecture**: Three-tier separation (CLI \u2192 Service \u2192 Repository)\n- \u2705 **Zero External Dependencies**: Built with Python standard library only\n- \u2705 **Production Quality**: Error handling, user-friendly output, cross-platform\n\n## \ud83d\ude80 Quick Start\n\n### Prerequisites\n\n- Python 3.11 or higher\n- Virtual environment (recommended)\n\n### Installation\n\n```bash\n# Clone the repository\ngit clone https://github.com/Ambreeen17/My_ToDo_App.git\ncd My_ToDo_App\n\n# Create virtual environment\npython -m venv .venv\n\n# Activate virtual environment\n# Windows:\n.venvScriptsactivate\n# Linux/macOS:\nsource .venv/bin/activate\n\n# Install development dependencies\npip install -r requirements-dev.txt\n```\n\n### Usage\n\n```bash\n# Create a new todo\npython main.py create \"Buy groceries\" --description", "Milk, eggs, bread\"\n\n# List all todos\npython main.py list\n\n# Update a pending todo\npython main.py update 1 --title \"Buy groceries and snacks\"\n\n# Mark todo as completed\npython main.py complete 1\n\n# Delete a todo\npython main.py delete 1\n```\n\n## \ud83d\udcd6 CLI Reference\n\n| Command | Arguments | Description | Example |\n|---------|-----------|-------------|---------|\n| `create` | `<title>` `--description` (optional) | Create a new todo | `python main.py create \"Buy groceries\" --description", "Milk, eggs\"` |\n| `list` | None | List all todos | `python main.py list` |\n| `update` | `<id>` `--title` (optional) `--description` (optional) | Update pending todo | `python main.py update 1 --title \"Updated title", "complete` | `<id>` | Mark todo as completed | `python main.py complete 1` |\n| `delete` | `<id>` | Permanently delete todo | `python main.py delete 1` |\n\n## \ud83c\udfd7\ufe0f Architecture\n\n### Three-Tier Architecture\n\n```\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 Presentation Tier (CLI)                                 \u2502\n\u2502 - Parses commands (argparse)                              \u2502\n\u2502 - Formats output (f-strings)                              \u2502\n\u2502 - No business logic                                          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                  \u2502 validates, enforces rules, orchestrates\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u25bc\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 Application Tier (Service)                                \u2502\n\u2502 - Business logic (TodoService)                              \u2502\n\u2502 - Validation (title, status, immutability)                   \u2502\n\u2502 - Entity management (Todo dataclass)                           \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                  \u2502 stores, retrieves, deletes\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u25bc\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 Data Tier (Repository)                                     \u2502\n\u2502 - In-memory storage (collections)                             \u2502\n\u2502 - CRUD operations (Create, Read, Update, Delete)               \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n```\n\n### Project Structure\n\n```\nMy_ToDo_App/\n\u251c\u2500\u2500 src/\n\u2502   \u251c\u2500\u2500 application/\n\u2502   \u2502   \u251c\u2500\u2500 models/\n\u2502   \u2502   \u2502   \u2514\u2500\u2500 todo.py              # Todo entity with validation\n\u2502   \u2502   \u2514\u2500\u2500 services/\n\u2502   \u2502       \u251c\u2500\u2500 id_generator.py      # Deterministic ID generation\n\u2502   \u2502       \u2514\u2500\u2500 todo_service.py      # Business logic & validation\n\u2502   \u251c\u2500\u2500 infrastructure/\n\u2502   \u2502   \u2514\u2500\u2500 repositories/\n\u2502   \u2502       \u251c\u2500\u2500 itodo_repository.py  # Repository interface\n\u2502   \u2502       \u2514\u2500\u2500 in_memory_todo_repository.py  # In-memory storage\n\u2502   \u2514\u2500\u2500 presentation/\n\u2502       \u2514\u2500\u2500 cli/\n\u2502           \u251c\u2500\u2500 command_parser.py    # CLI command parsing\n\u2502           \u2514\u2500\u2500 output_formatter.py  # Console output formatting\n\u251c\u2500\u2500 specs/\n\u2502   \u2514\u2500\u2500 001-console-todo-foundation/\n\u2502       \u251c\u2500\u2500 spec.md                  # Feature specification\n\u2502       \u251c\u2500\u2500 plan.md                  # Implementation plan\n\u2502       \u251c\u2500\u2500 research.md              # Technical decisions\n\u2502       \u251c\u2500\u2500 data-model.md            # Entity definitions\n\u2502       \u251c\u2500\u2500 contracts/               # Service contracts\n\u2502       \u2502   \u2514\u2500\u2500 service-contracts.md\n\u2502       \u2514\u2500\u2500 quickstart.md             # Quick start guide\n\u251c\u2500\u2500 main.py                           # CLI entry point\n\u251c\u2500\u2500 requirements-dev.txt              # Development dependencies\n\u251c\u2500\u2500 pytest.ini                        # Test configuration\n\u2514\u2500\u2500 README.md                         # This file\n```\n\n## \ud83d\udee1\ufe0f Business Rules\n\nThe system enforces these immutable business rules:\n\n| Rule | Description | Enforcement |\n|------|-------------|-------------|\n| **BR-001** | Title cannot be empty | Todo entity + TodoService validation |\n| **BR-002** | Completed todos cannot be edited | Todo.can_edit() check + service validation |\n| **BR-003** | Deleted todos are permanently removed | No soft delete in repository |\n| **BR-004** | IDs are never reused | Monotonic increment in ID generator |\n| **BR-005** | System behavior is deterministic | No randomness, no hidden state |\n\n## \u2705 Phase 1 Deliverables\n\n### Completed Artifacts\n\n- \u2705 **Specification**: Feature requirements and acceptance criteria\n- \u2705 **Implementation Plan**: Technical decisions and architecture\n- \u2705 **Research**: Python 3.11+, pytest 7.x, cross-platform strategy\n- \u2705 **Data Model**: Todo entity with validation rules\n- \u2705 **Service Contracts**: Interfaces for repository and service layers\n- \u2705 **Quickstart Guide**: Step-by-step tutorial\n- \u2705 **Task List**: 40 atomic tasks organized by user story\n- \u2705 **Implementation**: Full working console application\n- \u2705 **Documentation**: Comprehensive README and inline docs\n\n### Acceptance Criteria Met\n\n- \u2705 All CRUD operations work correctly\n- \u2705 Invalid input is safely rejected with clear error messages\n- \u2705 All business rules (5 immutable rules) are enforced by logic layer\n- \u2705 No constitution rule is violated\n- \u2705 System behaves deterministically\n- \u2705 Three-tier architecture separation is maintained\n- \u2705 IDs are never reused\n\n## \ud83d\udd2e Roadmap\n\n### Phase 1: Console Foundation (Current) \u2705\n- **Status**: Complete\n- **Focus**: CLI interface, in-memory storage\n- **Branch**: `001-console-todo-foundation`\n\n### Phase 2: Full-Stack Web + Modern UI (Planned)\n- **Focus**: Web API, responsive UI, persistent storage\n- **Technologies**: FastAPI, React/Vue, PostgreSQL\n\n### Phase 3: AI Chatbot & Agents (Planned)\n- **Focus**: AI-powered suggestions, conversational interface\n- **Technologies**: LangChain, OpenAI API\n\n### Phase 4: Kubernetes & Local Cloud (Planned)\n- **Focus**: Containerization, orchestration, deployment\n- **Technologies**: Docker, Kubernetes, Helm\n\n### Phase 5: Event-Driven & Production Cloud (Planned)\n- **Focus**: Event streaming, message queues, cloud deployment\n- **Technologies**: Kafka, RabbitMQ, AWS/GCP\n\n## \ud83e\uddea Development\n\n### Running Tests\n\n```bash\n# Run all tests with coverage\npytest --cov=src --cov-report=html --cov-report=term\n\n# Open coverage report\n# Windows:\nstart htmlcov/index.html\n# Linux/macOS:\nopen htmlcov/index.html\n```\n\n### Dependencies\n\n**Development Dependencies**:\n- pytest 7.4.0+ - Testing framework\n- pytest-cov 4.1.0+ - Coverage plugin\n- coverage 7.3.0+ - Coverage reporting\n\n**Runtime Dependencies**: None (Python standard library only)\n\n## \ud83d\udcdd License\n\nThis project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.\n\n## \ud83e\udd1d Contributing\n\nContributions are welcome! This project follows a spec-driven development methodology. Please:\n\n1. Read the [Master Constitution](.specify/memory/constitution.md)\n2. Review the [Feature Specification](specs/001-console-todo-foundation/spec.md)\n3. Follow the [Implementation Plan](specs/001-console-todo-foundation/plan.md)\n4. Open an issue or pull request\n\n## \ud83d\udcc4 Project Philosophy\n\nThis project is built using **Spec-Driven Development** principles:\n\n- **Constitution Before Specification**: Governance first\n- **Specification Before Code**: Design before implementation\n- **Manual Coding Prohibited**: AI-generated code only\n- **Phased Evolution**: Incremental, additive growth\n- **Immutable Phases**: Locked foundation, extensible future\n\n## \ud83c\udf93 Learning Resources\n\n- [Project Constitution](.specify/memory/constitution.md) - Master governing document\n- [Phase 1 Spec](specs/001-console-todo-foundation/spec.md) - Feature requirements\n- [Phase 1 Plan](specs/001-console-todo-foundation/plan.md) - Technical architecture\n- [Phase 1 Research](specs/001-console-todo-foundation/research.md) - Technical decisions\n\n## \ud83d\udcde Contact\n\n- **Repository**: https://github.com/Ambreeen17/My_ToDo_App\n- **Issues**: https://github.com/Ambreeen17/My_ToDo_App/issues\n\n---\n\n**Phase 1 Implementation Complete \u2014 Ready for Lock** \ud83c\udf89\n\nBuilt with \u2764\ufe0f using Spec-Driven Development principles."]]
+![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Phase 1](https://img.shields.io/badge/phase-foundation-orange.svg)](specs/001-console-todo-foundation)
+[![Spec-Driven Development](https://img.shields.io/badge/methodology-spec--driven-blueviolet.svg)](.specify/memory/constitution.md)
+
+# Evolution of Todo
+
+> A modern, spec-driven Todo application demonstrating phased software development from console to cloud-native deployment.
+
+## Overview
+
+**MyTodo App** is a production-grade application that evolves through five distinct phases, demonstrating best practices in software architecture, testing, and deployment. This project showcases how to build maintainable, scalable systems using **Spec-Driven Development (SDD)** methodology.
+
+### Current Phase: Phase 1 - Console Foundation
+
+The project starts with a solid console-based foundation, then evolves into a full-stack web application, adds AI capabilities, transitions to Kubernetes, and finally becomes an event-driven cloud-native system.
+
+## Key Features
+
+### Phase 1 Features (Current)
+- **Complete CRUD Operations**: Create, Read, Update, Delete todos
+- **Immutable Business Rules**: 5 enforced rules at the application layer
+- **Deterministic Behavior**: Unique IDs that are never reused, no randomness
+- **Clean Architecture**: Three-tier separation (Presentation → Application → Data)
+- **Zero External Dependencies**: Built with Python standard library only
+- **Production Quality**: Comprehensive error handling, user-friendly output, cross-platform support
+
+### Development Methodology
+- **Spec-Driven Development**: Every feature starts with specifications
+- **Constitution Governance**: Master document guides all development decisions
+- **Phase-Locking**: Completed phases become immutable foundations
+- **AI-Generated Code**: Manual coding prohibited, ensuring consistency
+- **Three-Tier Architecture**: Strict separation of concerns
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.11 or higher
+- Virtual environment (recommended)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Ambreeen17/My_ToDo_App.git
+cd My_ToDo_App
+
+# Create and activate virtual environment
+python -m venv .venv
+
+# Windows:
+.venv\Scripts\activate
+# Linux/macOS:
+source .venv/bin/activate
+
+# Install development dependencies
+pip install -r requirements-dev.txt
+```
+
+### Usage Examples
+
+```bash
+# Create a new todo
+python main.py create "Buy groceries" --description "Milk, eggs, bread"
+
+# List all todos
+python main.py list
+
+# Update a pending todo
+python main.py update 1 --title "Buy groceries and snacks"
+
+# Mark todo as completed
+python main.py complete 1
+
+# Delete a todo
+python main.py delete 1
+```
+
+## CLI Reference
+
+| Command | Arguments | Description | Example |
+|---------|-----------|-------------|---------|
+| `create` | `<title>` `--description` (optional) | Create a new todo | `python main.py create "Buy groceries" --description "Milk, eggs"` |
+| `list` | None | List all todos | `python main.py list` |
+| `update` | `<id>` `--title` (optional) `--description` (optional) | Update pending todo | `python main.py update 1 --title "Updated title"` |
+| `complete` | `<id>` | Mark todo as completed | `python main.py complete 1` |
+| `delete` | `<id>` | Permanently delete todo | `python main.py delete 1` |
+
+## Architecture
+
+### Three-Tier Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Presentation Tier (CLI)                                                │
+│ - Parses commands (argparse)                                            │
+│ - Formats output (f-strings)                                            │
+│ - No business logic                                                     │
+└──────────────────────────────────────────────────────────────────────────┘
+                                    │
+                    validates, enforces rules, orchestrates
+                                    │
+                                    ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Application Tier (Service)                                             │
+│ - Business logic (TodoService)                                         │
+│ - Validation (title, status, immutability)                              │
+│ - Entity management (Todo dataclass)                                    │
+└──────────────────────────────────────────────────────────────────────────┘
+                                    │
+                    stores, retrieves, deletes
+                                    │
+                                    ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Data Tier (Repository)                                                   │
+│ - In-memory storage (collections)                                        │
+│ - CRUD operations (Create, Read, Update, Delete)                        │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+### Project Structure
+
+```
+My_ToDo_App/
+├── src/
+│   ├── application/
+│   │   ├── models/
+│   │   │   └── todo.py              # Todo entity with validation
+│   │   └── services/
+│   │       ├── id_generator.py      # Deterministic ID generation
+│   │       └── todo_service.py      # Business logic & validation
+│   ├── infrastructure/
+│   │   └── repositories/
+│   │       ├── itodo_repository.py  # Repository interface
+│   │       └── in_memory_todo_repository.py  # In-memory storage
+│   └── presentation/
+│       └── cli/
+│           ├── command_parser.py    # CLI command parsing
+│           └── output_formatter.py  # Console output formatting
+├── specs/
+│   └── 001-console-todo-foundation/
+│       ├── spec.md                  # Feature specification
+│       ├── plan.md                  # Implementation plan
+│       ├── research.md              # Technical decisions
+│       ├── data-model.md            # Entity definitions
+│       ├── contracts/
+│       │   └── service-contracts.md
+│       ├── tasks.md                # Task list
+│       └── quickstart.md           # Quick start guide
+├── history/
+│   ├── prompts/                    # Prompt History Records
+│   └── adr/                       # Architecture Decision Records
+├── .specify/
+│   └── memory/
+│       └── constitution.md         # Master governance document
+├── main.py                         # CLI entry point
+├── requirements-dev.txt            # Development dependencies
+├── pytest.ini                      # Test configuration
+├── .gitignore                      # Git ignore rules
+└── README.md                       # This file
+```
+
+## Business Rules
+
+The system enforces these **immutable business rules**:
+
+| Rule ID | Description | Enforcement Point |
+|---------|-------------|-------------------|
+| **BR-001** | Title cannot be empty | Todo entity + TodoService validation |
+| **BR-002** | Completed todos cannot be edited | Todo.can_edit() check + service validation |
+| **BR-003** | Deleted todos are permanently removed | No soft delete in repository |
+| **BR-004** | IDs are never reused | Monotonic increment in ID generator |
+| **BR-005** | System behavior is deterministic | No randomness, no hidden state |
+
+## Documentation
+
+### Core Documentation
+
+- **[Master Constitution](.specify/memory/constitution.md)** - The supreme governing document that guides all development decisions. Contains 15 sections covering purpose, principles, architecture, governance, and amendment processes.
+
+- **[Phase 1 Specification](specs/001-console-todo-foundation/spec.md)** - Complete feature requirements with 5 user stories, 13 functional requirements, and 8 success criteria.
+
+- **[Phase 1 Implementation Plan](specs/001-console-todo-foundation/plan.md)** - Technical architecture, decisions, and implementation strategy.
+
+- **[Phase 1 Research](specs/001-console-todo-foundation/research.md)** - Technical decisions including language selection (Python 3.11+), testing framework (pytest 7.x), and cross-platform strategy.
+
+### Technical Documentation
+
+- **[Data Model](specs/001-console-todo-foundation/data-model.md)** - Entity definitions, state transitions, and business rule enforcement points.
+
+- **[Service Contracts](specs/001-console-todo-foundation/contracts/service-contracts.md)** - Interface definitions for repository, service, and ID generator layers.
+
+- **[Quickstart Guide](specs/001-console-todo-foundation/quickstart.md)** - 5-minute tutorial covering all CLI commands with examples.
+
+- **[Task List](specs/001-console-todo-foundation/tasks.md)** - 40 atomic tasks organized by user story with dependencies and MVP strategy.
+
+### Development History
+
+- **[Prompt History Records](history/prompts/)** - Complete record of all development conversations and decisions.
+- **[Architecture Decision Records](history/adr/)** - Significant architectural decisions with rationale and tradeoffs (future phases).
+
+## Phase 1 Deliverables
+
+### Completed Artifacts
+
+- ✅ **Specification**: Feature requirements and acceptance criteria
+- ✅ **Implementation Plan**: Technical decisions and architecture
+- ✅ **Research**: Python 3.11+, pytest 7.x, cross-platform strategy
+- ✅ **Data Model**: Todo entity with validation rules
+- ✅ **Service Contracts**: Interfaces for repository and service layers
+- ✅ **Quickstart Guide**: Step-by-step tutorial
+- ✅ **Task List**: 40 atomic tasks organized by user story
+- ✅ **Implementation**: Full working console application
+- ✅ **Documentation**: Comprehensive README and inline docs
+- ✅ **Constitution**: Master governance document (v1.0.0)
+
+### Acceptance Criteria Met
+
+- ✅ All CRUD operations work correctly
+- ✅ Invalid input is safely rejected with clear error messages
+- ✅ All business rules (5 immutable rules) are enforced by logic layer
+- ✅ No constitution rule is violated
+- ✅ System behaves deterministically
+- ✅ Three-tier architecture separation is maintained
+- ✅ IDs are never reused
+- ✅ Zero external dependencies (Python stdlib only)
+
+## Roadmap
+
+### Phase 1: Console Foundation ✅
+- **Status**: Complete
+- **Focus**: CLI interface, in-memory storage
+- **Branch**: `001-console-todo-foundation`
+- **Deliverables**: 49 files, 5,143 lines of code and documentation
+
+### Phase 2: Full-Stack Web + Modern UI (Planned)
+- **Focus**: Web API, responsive UI, persistent storage
+- **Technologies**: FastAPI, React/Vue, PostgreSQL
+- **Features**: REST API, Database persistence, Authentication
+
+### Phase 3: AI Chatbot & Agents (Planned)
+- **Focus**: AI-powered suggestions, conversational interface
+- **Technologies**: LangChain, OpenAI API, Vector databases
+- **Features**: Natural language processing, Smart task suggestions, Context-aware recommendations
+
+### Phase 4: Kubernetes & Local Cloud (Planned)
+- **Focus**: Containerization, orchestration, deployment
+- **Technologies**: Docker, Kubernetes, Helm, Prometheus
+- **Features**: Container orchestration, Auto-scaling, Monitoring & logging
+
+### Phase 5: Event-Driven & Production Cloud (Planned)
+- **Focus**: Event streaming, message queues, cloud deployment
+- **Technologies**: Kafka, RabbitMQ, AWS/GCP, Event Sourcing
+- **Features**: Event-driven architecture, Microservices, Cloud-native deployment
+
+## Development
+
+### Running Tests
+
+```bash
+# Run all tests with coverage
+pytest --cov=src --cov-report=html --cov-report=term
+
+# Open coverage report
+# Windows:
+start htmlcov/index.html
+# Linux/macOS:
+open htmlcov/index.html
+```
+
+### Dependencies
+
+**Development Dependencies**:
+- `pytest>=7.4.0` - Testing framework
+- `pytest-cov>=4.1.0` - Coverage plugin
+- `coverage>=7.3.0` - Coverage reporting
+
+**Runtime Dependencies**: None (Python standard library only)
+
+### Project Philosophy
+
+This project is built using **Spec-Driven Development** principles:
+
+1. **Constitution Before Specification**: Governance first, always
+2. **Specification Before Code**: Design before implementation
+3. **Manual Coding Prohibited**: AI-generated code only
+4. **Phased Evolution**: Incremental, additive growth
+5. **Immutable Phases**: Locked foundation, extensible future
+
+### Constitution Principles
+
+The [Master Constitution](.specify/memory/constitution.md) establishes these core principles:
+
+- **Spec-Driven Development**: All work must be specification-first
+- **Three-Tier Architecture Enforced**: Presentation, Application, Data separation mandatory
+- **Phase Locking Rules**: Completed phases become immutable
+- **AI Code Generation**: Manual coding prohibited
+- **GitHub Governance**: Branch-per-feature strategy
+- **UI Quality Requirements**: Human-readable, accessible output
+- **Security & Data Rules**: No secrets, defensive programming
+- **Failure & Recovery Rule**: Phase failure requires amendment, not rewrite
+- **Versioning**: Semantic versioning for constitution
+
+## Contributing
+
+Contributions are welcome! This project follows a spec-driven development methodology.
+
+### Contribution Guidelines
+
+1. **Read the Constitution**: Start with the [Master Constitution](.specify/memory/constitution.md)
+2. **Review Specifications**: Understand existing [Feature Specifications](specs/)
+3. **Follow Plans**: Adhere to [Implementation Plans](specs/001-console-todo-foundation/plan.md)
+4. **Create Issues**: Use [GitHub Issues](https://github.com/Ambreeen17/My_ToDo_App/issues) for discussion
+5. **Submit PRs**: Follow the spec-driven workflow for all changes
+
+### Development Workflow
+
+1. Create a new branch from `master`
+2. Follow `/sp.specify` → `/sp.plan` → `/sp.tasks` → `/sp.implement` workflow
+3. Ensure all constitution principles are followed
+4. Create appropriate Prompt History Records
+5. Document significant architectural decisions with ADRs
+6. Submit pull request for review
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+- **Repository**: https://github.com/Ambreeen17/My_ToDo_App
+- **Issues**: https://github.com/Ambreeen17/My_ToDo_App/issues
+- **Discussions**: https://github.com/Ambreeen17/My_ToDo_App/discussions
+
+---
+
+**Phase 1 Implementation Complete — Ready for Lock** 🎉
+
+Built with ❤️ using Spec-Driven Development principles.
