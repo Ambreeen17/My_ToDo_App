@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(git fetch:*)",
+      "Bash(ls -d \"C:\\My-Todo-App\\specs\"\"*-console-todo-foundation 2>/dev/null || echo \"No spec directories found \")",
+      "Bash(powershell -ExecutionPolicy Bypass -File:*)",
+      "Bash(python:*)"
+    ]
+  }
+}
